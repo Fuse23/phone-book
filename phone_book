@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+import sys
+
+from add import add_record
+from show import show_records
+from edit import edit_record
+from search import search_record
+from exceptions import BadInput
+from utils import DATA_FILE
+
+
+def _show_menu() -> None:
+    """Display the main menu options"""
+    print("\nMenu:")
+    print("0 / (menu) Show menu")
+    print("1 / (show) Show records")
+    print("2 / (add) Add records")
+    print("3 / (edit) Edit record")
+    print("4 / (search) Search record")
+    print("5 / (exit) Exit")
+
+
+def main() -> None:
+    """Main function to run the phone book application"""
+    print("Welcome to phone book!\n")
+    _show_menu()
+
+    try:
+        while True:
+            choise = input("Select an action: ")
+
+            try:
+                if choise == '0' or choise == "menu":
+                    _show_menu()
+                elif choise == '1' or choise == "show":
+                    show_records()
+                elif choise == '2' or choise == "add":
+                    add_record()
+                elif choise == '3' or choise == "edit":
+                    edit_record()
+                elif choise == '4' or choise == "search":
+                    search_record()
+                elif choise == '5' or choise == 'exit':
+                    print("Goodbye!")
+                    break
+                else:
+                    print("Bad input. Try agein.\nFor show menu input: 0\n")
+            except BadInput as exc:
+                    print(exc, file=sys.stderr)
+                    print("Please try again\n")
+            except FileNotFoundError as e:
+                    print(e, file=sys.stderr)
+                    print(f"Create file: {DATA_FILE}\n")
+            except Exception as e:
+                print(e, file=sys.stderr)
+    except KeyboardInterrupt:
+        print("\nGoodbye!")
+
+
+if __name__ == "__main__":
+    main()
